@@ -1,0 +1,166 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+
+<head> 
+	<meta charset="UTF-8"> 
+	<meta name="viewport"
+		content="width=device-width, 
+				initial-scale=1.0"> 
+
+	<style> 
+		* { 
+			margin: 0; 
+			padding: 0; 
+			font-family: 
+				Verdana, Geneva, Tahoma, sans-serif; 
+		} 
+
+		.container { 
+			width: 100%; 
+			height: 100vh; 
+			background-image: 
+				linear-gradient(rgb(142, 218, 236), 
+								rgb(108, 111, 255)); 
+			display: flex; 
+			flex-direction: column; 
+			justify-content: center; 
+			align-items: center; 
+			transition: 1s linear;
+		} 
+
+		.container h1 { 
+			color: white;
+			font-weight: 700; 
+			font-size: 25px; 
+			text-align: center; 
+		} 
+
+		.converter-row { 
+			display: flex; 
+			width: max-content; 
+			justify-content: center;
+			align-items: start; 
+			background: rgba(255, 255, 255, 0.2);
+			border-radius: 10px; 
+			padding: 50px 20px; 
+            flex-direction: column;
+
+		} 
+
+		.col {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom:1rem;
+		} 
+
+		.col label { 
+			font-size: 15px; 
+			font-weight: 500; 
+			margin-bottom: 10px; 
+			color: #fff; 
+            width: 40ch;
+		} 
+
+		.col input { 
+			width: 150px; 
+			height: 30px; 
+
+			background: rgba(255, 255, 255, 0.705); 
+			border-radius: 5px; 
+			text-align: center; 
+            outline:none;
+            border: none;
+		} 
+        input:focus{
+            background-color: rgba(255, 255, 255, 0.9); ;
+        }
+		span{
+			width: 3ch;
+			color: white;
+			padding: 0.5rem;
+			font-weight: 400;
+		}
+	</style> 
+</head> 
+
+<body> 
+	<div class="container"> 
+		<h1>Temperature Converter </h1> 
+		<div class="converter-row"> 
+			<div class="col"> 
+				<label>Fahrenheit</label> 
+				<input type="number"
+					id="fahrenheit"> <span> F</span>
+			</div> 
+
+			<div class="col"> 
+				<label>Celsius</label> 
+				<input type="number"
+					id="celsius"> 
+					<span> C</span>
+			</div> 
+
+			<div class="col"> 
+				<label>Kelvin</label> 
+				<input type="number"
+					id="kelvin"> <span> K</span>
+			</div> 
+		</div> 
+	</div> 
+
+	<script> 
+		let celsius = 
+			document.getElementById('celsius'); 
+		let fahrenheit = 
+			document.getElementById('fahrenheit'); 
+		let kelvin = 
+			document.getElementById('kelvin'); 
+            celsius.oninput = function () {
+                let celsiusValue = parseFloat(celsius.value);
+                let f = (celsiusValue * 9) / 5 + 32;
+                fahrenheit.value = parseFloat(f.toFixed(2))
+            
+                let k = celsiusValue + 273.15;
+                kelvin.value = parseFloat(k.toFixed(2));
+            
+                let hue, saturation;
+    
+                if (celsiusValue > 0) {
+                    hue = 0;
+                    saturation = 50+ celsiusValue * 5; 
+                } else if (celsiusValue < 0) {
+                    hue = 240;
+                    saturation = 100-celsiusValue * 5; 
+
+				} else if(celsiusValue===0)
+				 {
+                    hue =10; 
+                    saturation = 100; 
+                }
+
+                const container = document.getElementsByClassName('container')[0];
+                container.style.backgroundImage = `linear-gradient(45deg, hsl(${hue}, ${saturation}%, 50%),  hsl(${hue%10}, ${saturation%30}%, 50%))`;
+
+            }
+
+		fahrenheit.oninput = function () { 
+			let c = ((parseFloat( 
+				fahrenheit.value) - 32) * 5) / 9; 
+			celsius.value = parseFloat(c.toFixed(2)); 
+
+			let k = (parseFloat( 
+				fahrenheit.value) - 32) * 5 / 9 + 273.15; 
+			kelvin.value = parseFloat(k.toFixed(2)); 
+		} 
+		kelvin.oninput = function () { 
+			let f = (parseFloat( 
+				kelvin.value) - 273.15) * 9 / 5 + 32; 
+			fahrenheit.value = parseFloat(f.toFixed(2)); 
+
+			let c = (parseFloat(kelvin.value) - 273.15); 
+			celsius.value = parseFloat(c.toFixed(2)); 
+		} 
+	</script> 
+</body> 
+
+</html> 
